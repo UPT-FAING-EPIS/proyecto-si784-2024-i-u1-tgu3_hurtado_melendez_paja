@@ -57,46 +57,65 @@ public class AdministradorServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("estamos en el Get");
-        String action = request.getParameter("accion");
-        String ruta = request.getParameter("ruta");
-        String page = "index.jsp";
-        if (action != null) {
-            switch (action) {
-            case "listarAdmin":
-     
-                            page = "admin/administradores/listarAdministradores.jsp";
+    System.out.println("Estamos en el Get");
+    String action = request.getParameter("accion");
+    String page = "index.jsp";
+    
+    //SOLUCION ERROR
+    final String ERROR_PAGE = "error.jsp";
 
-                        break;
-                case "agregarAdmin":
-                    System.out.println("estamos en agregarAdmin");
-                    page = "admin/administradores/agregarAdministradores.jsp";
-                    break;
-                case "editarAdmin":
-                     page = "admin/administradores/editarAdministradores.jsp";
-              
-                    break;
-                    case "exportarCsv":
-    // Configurar la respuesta para la descarga de un archivo CSV
+    if (action != null) {
+
+
+
+        switch (action) {
+            case "listarAdmin":
+                page = listarAdministradores(request, response);
+                break;
+                
+            case "agregarAdmin":
+                System.out.println("Estamos en agregarAdmin");
+                page = "admin/administradores/agregarAdministradores.jsp";
+                break;
+                
+            case "editarAdmin":
+                page = "admin/administradores/editarAdministradores.jsp";
+                break;
+                
+            case "exportarCsv":
+                page = exportarCsv(request, response);
+                break;
+                
+            case "exportarPdf":
+                page = exportarPdf(request, response);
+                break;
+            
+            
+            default:
+                page = ERROR_PAGE;
+                break;
+        }
+    }
+
+    RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+    dispatcher.forward(request, response);
+}
+
+private static final String LISTAR_ADMIN_PAGE = "admin/administradores/listarAdministradores.jsp";
+
+private String listarAdministradores(HttpServletRequest request, HttpServletResponse response) {
+    return LISTAR_ADMIN_PAGE;
+}
+
+private String exportarCsv(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     response.setContentType("text/csv");
     response.setHeader("Content-Disposition", "attachment; filename=ListadoAdministradores.csv");
 
-    // Crear un objeto CSVWriter para escribir el archivo CSV
     try (CSVWriter writer = new CSVWriter(response.getWriter())) {
         // Escribir la fila de encabezado del archivo CSV
         writer.writeNext(new String[] {
-                "DNI",
-                "Nombre",
-                "Apellido",
-                "Fecha de Nacimiento",
-                "Género",
-                "País",
-                "Ciudad",
-                "Email",
-                "Teléfono",
-                "Rol",
-                "Estado",
-                "Foto de Perfil"
+                "DNI", "Nombre", "Apellido", "Fecha de Nacimiento", "Género",
+                "País", "Ciudad", "Email", "Teléfono", "Rol", "Estado", "Foto de Perfil"
         });
 
         // Obtener los datos de los administradores
@@ -106,18 +125,10 @@ public class AdministradorServlet extends HttpServlet {
         // Escribir los datos de los administradores al archivo CSV
         for (ClsModeloAdministrador admin : administradores) {
             String[] rowData = {
-                    admin.getDni(),
-                    admin.getNombre(),
-                    admin.getApellido(),
-                    admin.getFechaNacimiento(),
-                    admin.getGenero(),
-                    admin.getPais(),
-                    admin.getCiudad(),
-                    admin.getEmail(),
-                    String.valueOf(admin.getTelefono()),
-                    admin.getRol(),
-                    String.valueOf(admin.getEstado()),
-                    admin.getFotoPerfil()
+                    admin.getDni(), admin.getNombre(), admin.getApellido(),
+                    admin.getFechaNacimiento(), admin.getGenero(), admin.getPais(),
+                    admin.getCiudad(), admin.getEmail(), String.valueOf(admin.getTelefono()),
+                    admin.getRol(), String.valueOf(admin.getEstado()), admin.getFotoPerfil()
             };
             writer.writeNext(rowData);
         }
@@ -125,9 +136,11 @@ public class AdministradorServlet extends HttpServlet {
         Logger.getLogger(AdministradorServlet.class.getName()).log(Level.SEVERE, null, ex);
     }
 
-    break;
+    return null; // La página no cambia después de exportar CSV
+}
 
-                    case "exportarPdf":
+private String exportarPdf(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    // Lógica para exportar PDF
     ClsModeloDaoAdministrador daoAdmin = new ClsModeloDaoAdministrador();
     List<ClsModeloAdministrador> administradores = daoAdmin.obtenerTodosAdministradores();
 
@@ -204,20 +217,9 @@ public class AdministradorServlet extends HttpServlet {
         }
     }
 
-    break;
+    return null; // La página no cambia después de exportar PDF
+}
 
-
-
-  
-                default:
-                    page = "error.jsp";
-                    break;
-            }
-        }
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher(page);
-        dispatcher.forward(request, response);
-    }
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -227,183 +229,217 @@ public class AdministradorServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+
+
+
+
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
                     String action = request.getParameter("accion");
         String page = "index.jsp"; // Página predeterminada
         HttpSession session = request.getSession();
+        
+        //SOLUCION ERROR
+        final String ERROR_PAGE = "error.jsp";
 
         // Recupera el atributo adminAutenticado desde la sesión
         ClsModeloAdministrador adminAutenticado = (ClsModeloAdministrador) session.getAttribute("adminAutenticado");
-        if (action != null) {
-            switch (action) {
-                case "registrarAdministrador":
-                   // Obtén los datos del formulario de registro
-                    String dni = request.getParameter("dni");
-                   String nombre = request.getParameter("nombre");
-                   String apellido = request.getParameter("apellido");
-                   String fechaNacimiento = request.getParameter("fechaNacimiento");
-                   String genero = request.getParameter("genero");
-                   String pais = request.getParameter("pais");
-                   String ciudad = request.getParameter("ciudad");
-                   String email = request.getParameter("email");
-                   int telefono = Integer.parseInt(request.getParameter("telefono"));
-                   String password = request.getParameter("password"); // Asegúrate de encriptar la contraseña antes de enviarla a la base de datos
-                   String rol = request.getParameter("rol");
-                   int estado = 1; // Puedes establecer el estado inicial según tus necesidades // Puedes manejar la imagen de perfil si es necesario
-                   String fotoPerfil = "fotos/fotodefault.png";
-                   // Crea un objeto ClsModeloUsuario con los datos del formulario
-                   ClsModeloAdministrador nuevoAdmin = new ClsModeloAdministrador();
-                   nuevoAdmin.setDni(dni);
-                   nuevoAdmin.setNombre(nombre);
-                   nuevoAdmin .setApellido(apellido);
-                   nuevoAdmin .setFechaNacimiento(fechaNacimiento);
-                   nuevoAdmin .setGenero(genero);
-                   nuevoAdmin .setPais(pais);
-                   nuevoAdmin .setCiudad(ciudad);
-                   nuevoAdmin .setEmail(email);
-                   nuevoAdmin.setTelefono(telefono);
-                   nuevoAdmin .setPasswordHash(password);
-                   nuevoAdmin.setRol(rol);
-                   nuevoAdmin .setEstado(estado);
-                   nuevoAdmin .setFotoPerfil(fotoPerfil);
-       
-                    
-                    System.out.println(nombre);
-                    System.out.println(apellido);
-                    System.out.println(fechaNacimiento);
-                    System.out.println(genero);
-                    System.out.println(pais);
-                    System.out.println(ciudad);
-                    System.out.println(email);
-                    System.out.println(password);
-                    System.out.println(estado);
+    if (action != null) {
+        switch (action) {
+            case "registrarAdministrador":
+                page = registrarAdministrador(request, adminAutenticado, ERROR_PAGE);
+                break;
+
+            case "actualizarAdministrador":
+                page = "admin/administradores/listarAdmnistradores.jsp"; // Redirigir a la página de listado
+                break;
+               
+            case "autenticarAdministrador":
+                page = autenticarAdministrador(request, session, ERROR_PAGE);
+                break;
+
+            case "editarAdministrador":
+                page = editarAdministrador(request, adminAutenticado, ERROR_PAGE);
+                break;
+
+            case "insertarAdministradorCSV":
+                page = insertarAdministradorCSV(request, adminAutenticado, ERROR_PAGE);
+                break;
+
+            default:
+                // Lógica para manejar otros casos o errores
+                page = ERROR_PAGE;
+                break;
+        }
+    }
 
 
-                   // Llama al método registrarUsuario de ClsModeloDaoUsuario
-                   ClsModeloDaoAdministrador daoAdmin = new ClsModeloDaoAdministrador();
-                   boolean exitoRegistro = daoAdmin.registrarAdministrador(nuevoAdmin);
-                   
-        
-       
-                   
-                   if (exitoRegistro) {
-                       String dniAdmin=adminAutenticado.getDni();
-                       nuevoAudi.setFKidAdmin(Integer.parseInt(dniAdmin));
-                        nuevoAudi.setAccion(action);
-                        daoAudi.agregarAuditoria(nuevoAudi);
-                       // El registro fue exitoso
-                       // Puedes redirigir a una página de éxito o a la página de inicio de sesión
-                       page = "admin/index.jsp";
-                       System.out.println("llego a  exito");
-                       
-                   } else {
-                       // El registro falló, puedes redirigir a una página de error o mostrar un mensaje
-                       page = "error.jsp";
-                       System.out.println("aqui error despues del esxito");
-                   }
-                   break;
+        RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+        dispatcher.forward(request, response);
+    }
 
-                case "actualizarAdministrador":
-                    // Lógica para actualizar usuario
-                    page = "admin/administradores/listarAdmnistradores.jsp"; // Redirigir a la página de listado
-                    break;
-                   
-                case "autenticarAdministrador":
-                    String correo = request.getParameter("email");
-                    String clave = request.getParameter("password");
-                    
-                    String captchaText = request.getParameter("captcha");
-
-                    System.out.println("Email: " + correo);
-                    System.out.println("Password: " + clave);
-
-                    String captchaTextFromSession = (String) session.getAttribute("captchaText");
-                    System.out.println("Captcha from Session: " + captchaTextFromSession);
-
-                    if (captchaText == null || captchaTextFromSession == null || !captchaText.equalsIgnoreCase(captchaTextFromSession)) {
-                        // CAPTCHA incorrecto
-                        // Aquí puedes manejar cómo deseas responder a un captcha incorrecto
-                        // Puedes redirigir a una página de error, imprimir un mensaje, etc.
-                        response.sendRedirect("landing/loginadmin_2.jsp?mensaje=captcha");
-                        return;
-                    }
-
-                    // Llama al método autenticarAdministrador de ClsModeloDaoAdministrador
-                    ClsModeloDaoAdministrador daoAdminAu = new ClsModeloDaoAdministrador();
-                    
-                    adminAutenticado = daoAdminAu.autenticarAdministrador(correo, clave);
-
-                    if (adminAutenticado != null) {
-                        
-                        // La autenticación fue exitosa
-                        // Puedes almacenar la información del administrador en la sesión si es necesario
-                        request.getSession().setAttribute("adminAutenticado", adminAutenticado);
-                        page = "admin/index.jsp"; // Redirige a la página del perfil del administrador
-                        System.out.println("Autenticación exitosa");
-                    } else {
-                        // La autenticación falló, puedes redirigir a una página de error o mostrar un mensaje
-                        
-                        System.out.println("Autenticación fallida");
-                        page = "landing/loginadmin_1.jsp?mensaje=correopassword";
-                    }
-                    break;
-                    
-                    case "editarAdministrador":
-                   // Obtén los datos del formulario de registro
-                   String dni2 = request.getParameter("dni");
-                   String nombre2 = request.getParameter("nombre");
-                   String apellido2 = request.getParameter("apellido");
-                   String fechaNacimiento2 = request.getParameter("fechaNacimiento");
-                   String genero2 = request.getParameter("genero");
-                   String pais2 = request.getParameter("pais");
-                   String ciudad2 = request.getParameter("ciudad");
-                   String email2 = request.getParameter("email");
-                   int telefono2 = Integer.parseInt(request.getParameter("telefono"));
-                   String password2 = request.getParameter("password"); // Asegúrate de encriptar la contraseña antes de enviarla a la base de datos
-                   String rol2 = request.getParameter("rol");
-                   int estado2 = 1; // Puedes establecer el estado inicial según tus necesidades // Puedes manejar la imagen de perfil si es necesario
-                   String fotoPerfil2 = "fotos/fotodefault.png";
-                   System.out.println("dni del post editar:"+dni2);
-                   // Crea un objeto ClsModeloUsuario con los datos del formulario
-                   ClsModeloAdministrador nuevoAdmin2 = new ClsModeloAdministrador();
-                   nuevoAdmin2.setDni(dni2);
-                   nuevoAdmin2.setNombre(nombre2);
-                   nuevoAdmin2 .setApellido(apellido2);
-                   nuevoAdmin2 .setFechaNacimiento(fechaNacimiento2);
-                   nuevoAdmin2 .setGenero(genero2);
-                   nuevoAdmin2 .setPais(pais2);
-                   nuevoAdmin2 .setCiudad(ciudad2);
-                   nuevoAdmin2 .setEmail(email2);
-                   nuevoAdmin2.setTelefono(telefono2);
-                   nuevoAdmin2 .setPasswordHash(password2);
-                   nuevoAdmin2.setRol(rol2);
-                   nuevoAdmin2 .setEstado(estado2);
-                   nuevoAdmin2 .setFotoPerfil(fotoPerfil2);
-       
+    //SOLUCION ERROR
+    protected static final String PARAM_EMAIL = "email";
+    protected static final String PARAM_PASSWORD = "password";
+    protected static final String ADMIN_INDEX_PAGE = "admin/index.jsp";
 
 
-                   // Llama al método registrarUsuario de ClsModeloDaoUsuario
-                   ClsModeloDaoAdministrador daoAdmin2 = new ClsModeloDaoAdministrador();
-                   boolean exitoRegistro2 = daoAdmin2.actualizarAdministrador(nuevoAdmin2);
-                   String dniAdmin2=adminAutenticado.getDni();
-                   if (exitoRegistro2) {
+    // Método para registrar un nuevo administrador
+private String registrarAdministrador(HttpServletRequest request, ClsModeloAdministrador adminAutenticado, String errorPage) {
+    String page;
+    // Obtén los datos del formulario de registro
+    String dni = request.getParameter("dni");
+    String nombre = request.getParameter("nombre");
+    String apellido = request.getParameter("apellido");
+    String fechaNacimiento = request.getParameter("fechaNacimiento");
+    String genero = request.getParameter("genero");
+    String pais = request.getParameter("pais");
+    String ciudad = request.getParameter("ciudad");
+    String email = request.getParameter(PARAM_EMAIL);
+    int telefono = Integer.parseInt(request.getParameter("telefono"));
+    String password = request.getParameter(PARAM_PASSWORD); // Asegúrate de encriptar la contraseña antes de enviarla a la base de datos
+    String rol = request.getParameter("rol");
+    int estado = 1; // Puedes establecer el estado inicial según tus necesidades // Puedes manejar la imagen de perfil si es necesario
+    String fotoPerfil = "fotos/fotodefault.png";
+    // Crea un objeto ClsModeloUsuario con los datos del formulario
+    ClsModeloAdministrador nuevoAdmin = new ClsModeloAdministrador();
+    nuevoAdmin.setDni(dni);
+    nuevoAdmin.setNombre(nombre);
+    nuevoAdmin.setApellido(apellido);
+    nuevoAdmin.setFechaNacimiento(fechaNacimiento);
+    nuevoAdmin.setGenero(genero);
+    nuevoAdmin.setPais(pais);
+    nuevoAdmin.setCiudad(ciudad);
+    nuevoAdmin.setEmail(email);
+    nuevoAdmin.setTelefono(telefono);
+    nuevoAdmin.setPasswordHash(password);
+    nuevoAdmin.setRol(rol);
+    nuevoAdmin.setEstado(estado);
+    nuevoAdmin.setFotoPerfil(fotoPerfil);
 
-                        nuevoAudi.setFKidAdmin(Integer.parseInt(dniAdmin2));
-                        nuevoAudi.setAccion(action);
-                        daoAudi.agregarAuditoria(nuevoAudi);    
-                       // El registro fue exitoso
-                       // Puedes redirigir a una página de éxito o a la página de inicio de sesión
-                       page = "admin/index.jsp";
-                       System.out.println("llego a  exito");
-                   } else {
-                       // El registro falló, puedes redirigir a una página de error o mostrar un mensaje
-                       page = "error.jsp";
-                       System.out.println("aqui error despues del esxito");
-                   }
-                   break;
-                   case "insertarAdministradorCSV":
+    // Llama al método registrarUsuario de ClsModeloDaoUsuario
+    ClsModeloDaoAdministrador daoAdmin = new ClsModeloDaoAdministrador();
+    boolean exitoRegistro = daoAdmin.registrarAdministrador(nuevoAdmin);
+
+    if (exitoRegistro) {
+        String dniAdmin = adminAutenticado.getDni();
+        nuevoAudi.setFKidAdmin(Integer.parseInt(dniAdmin));
+        nuevoAudi.setAccion("registrarAdministrador");
+        daoAudi.agregarAuditoria(nuevoAudi);
+        // El registro fue exitoso
+        // Puedes redirigir a una página de éxito o a la página de inicio de sesión
+        page = ADMIN_INDEX_PAGE;
+        System.out.println("llego a  exito");
+    } else {
+        // El registro falló, puedes redirigir a una página de error o mostrar un mensaje
+        page = errorPage;
+        System.out.println("aqui error despues del esxito");
+    }
+    return page;
+}
+
+// Método para autenticar un administrador
+private String autenticarAdministrador(HttpServletRequest request, HttpSession session, String errorPage) {
+    String page;
+    String correo = request.getParameter(PARAM_EMAIL);
+    String clave = request.getParameter(PARAM_PASSWORD);
+
+    String captchaText = request.getParameter("captcha");
+
+    System.out.println("Email: " + correo);
+    System.out.println("Password: " + clave);
+
+    String captchaTextFromSession = (String) session.getAttribute("captchaText");
+    System.out.println("Captcha from Session: " + captchaTextFromSession);
+
+    if (captchaText == null || captchaTextFromSession == null || !captchaText.equalsIgnoreCase(captchaTextFromSession)) {
+        // CAPTCHA incorrecto
+        // Aquí puedes manejar cómo deseas responder a un captcha incorrecto
+        // Puedes redirigir a una página de error, imprimir un mensaje, etc.
+        page = "landing/loginadmin_2.jsp?mensaje=captcha";
+        return page;
+    }
+
+    // Llama al método autenticarAdministrador de ClsModeloDaoAdministrador
+    ClsModeloDaoAdministrador daoAdminAu = new ClsModeloDaoAdministrador();
+
+    ClsModeloAdministrador adminAutenticado = daoAdminAu.autenticarAdministrador(correo, clave);
+
+    if (adminAutenticado != null) {
+
+        // La autenticación fue exitosa
+        // Puedes almacenar la información del administrador en la sesión si es necesario
+        session.setAttribute("adminAutenticado", adminAutenticado);
+        page = ADMIN_INDEX_PAGE; // Redirige a la página del perfil del administrador
+        System.out.println("Autenticación exitosa");
+    } else {
+        // La autenticación falló, puedes redirigir a una página de error o mostrar un mensaje
+        System.out.println("Autenticación fallida");
+        page = "landing/loginadmin_1.jsp?mensaje=correopassword";
+    }
+    return page;
+}
+
+// Método para editar un administrador
+private String editarAdministrador(HttpServletRequest request, ClsModeloAdministrador adminAutenticado, String errorPage) {
+    String page;
+    // Obtén los datos del formulario de registro
+    String dni2 = request.getParameter("dni");
+    String nombre2 = request.getParameter("nombre");
+    String apellido2 = request.getParameter("apellido");
+    String fechaNacimiento2 = request.getParameter("fechaNacimiento");
+    String genero2 = request.getParameter("genero");
+    String pais2 = request.getParameter("pais");
+    String ciudad2 = request.getParameter("ciudad");
+    String email2 = request.getParameter(PARAM_EMAIL);
+    int telefono2 = Integer.parseInt(request.getParameter("telefono"));
+    String password2 = request.getParameter(PARAM_PASSWORD); // Asegúrate de encriptar la contraseña antes de enviarla a la base de datos
+    String rol2 = request.getParameter("rol");
+    int estado2 = 1; // Puedes establecer el estado inicial según tus necesidades // Puedes manejar la imagen de perfil si es necesario
+    String fotoPerfil2 = "fotos/fotodefault.png";
+    System.out.println("dni del post editar:" + dni2);
+    // Crea un objeto ClsModeloUsuario con los datos del formulario
+    ClsModeloAdministrador nuevoAdmin2 = new ClsModeloAdministrador();
+    nuevoAdmin2.setDni(dni2);
+    nuevoAdmin2.setNombre(nombre2);
+    nuevoAdmin2.setApellido(apellido2);
+    nuevoAdmin2.setFechaNacimiento(fechaNacimiento2);
+    nuevoAdmin2.setGenero(genero2);
+    nuevoAdmin2.setPais(pais2);
+    nuevoAdmin2.setCiudad(ciudad2);
+    nuevoAdmin2.setEmail(email2);
+    nuevoAdmin2.setTelefono(telefono2);
+    nuevoAdmin2.setPasswordHash(password2);
+    nuevoAdmin2.setRol(rol2);
+    nuevoAdmin2.setEstado(estado2);
+    nuevoAdmin2.setFotoPerfil(fotoPerfil2);
+
+    // Llama al método registrarUsuario de ClsModeloDaoUsuario
+    ClsModeloDaoAdministrador daoAdmin2 = new ClsModeloDaoAdministrador();
+    boolean exitoRegistro2 = daoAdmin2.actualizarAdministrador(nuevoAdmin2);
+    String dniAdmin2 = adminAutenticado.getDni();
+    if (exitoRegistro2) {
+
+        nuevoAudi.setFKidAdmin(Integer.parseInt(dniAdmin2));
+        nuevoAudi.setAccion("editarAdministrador");
+        daoAudi.agregarAuditoria(nuevoAudi);
+        // El registro fue exitoso
+        // Puedes redirigir a una página de éxito o a la página de inicio de sesión
+        page = ADMIN_INDEX_PAGE;
+        System.out.println("llego a  exito");
+    } else {
+        // El registro falló, puedes redirigir a una página de error o mostrar un mensaje
+        page = errorPage;
+        System.out.println("aqui error despues del esxito");
+    }
+    return page;
+}
+
+// Método para insertar administradores desde un archivo CSV
+private String insertarAdministradorCSV(HttpServletRequest request, ClsModeloAdministrador adminAutenticado, String errorPage) {
+    String page;
     // Verifica si la solicitud contiene datos multipartes (archivo adjunto)
     if (ServletFileUpload.isMultipartContent(request)) {
         DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -453,31 +489,20 @@ public class AdministradorServlet extends HttpServlet {
             Logger.getLogger(UsuarioServlet.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             // Redirige a la página de listado de administradores después de la importación
-            String dniAdmin=adminAutenticado.getDni();
-                       nuevoAudi.setFKidAdmin(Integer.parseInt(dniAdmin));
-                        nuevoAudi.setAccion(action);
-                        daoAudi.agregarAuditoria(nuevoAudi);
-            page = "admin/administradores/listarAdministradores.jsp";
+            String dniAdmin = adminAutenticado.getDni();
+            nuevoAudi.setFKidAdmin(Integer.parseInt(dniAdmin));
+            nuevoAudi.setAccion("insertarAdministradorCSV");
+            daoAudi.agregarAuditoria(nuevoAudi);
+            page = "admin/administradores/listarAdmnistradores.jsp";
         }
     } else {
-        page = "admin/administradores/listarAdministradores.jsp";
+        page = errorPage;
         System.out.println("No se encontró el archivo CSV en la solicitud");
         // Manejar el caso en que no se encuentra el archivo CSV
     }
-    break;
+    return page;
+}
 
-
-                default:
-                    // Lógica para manejar otros casos o errores
-                    page = "error.jsp";
-                      System.out.println("llego a error de frente");
-                    break;
-            }
-        }
-
-        RequestDispatcher dispatcher = request.getRequestDispatcher(page);
-        dispatcher.forward(request, response);
-    }
 
     /**
      * Returns a short description of the servlet.
