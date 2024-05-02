@@ -3,7 +3,7 @@ import java.sql.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 public class ClsConexiondb {
-    Connection conexiondb = null;  // Declaración de una variable de tipo "Connection" llamada "conexiondb" inicializada como nula.
+    Connection conexiondb = null;  
 
    
     private String encryptPassword(String password) {
