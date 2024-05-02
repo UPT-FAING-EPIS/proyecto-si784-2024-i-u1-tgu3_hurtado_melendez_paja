@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import Modelo.ClsModeloAdministrador;
 import Configdb.ClsConexiondb;
-import Controlador.LoginServlet;
+import Controlador01.LoginServlet;
 
 public class ClsModeloDaoAdministrador {
     private final Connection conexion;

@@ -1,8 +1,9 @@
 package Modelo;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
-public class ClsModeloAdministrador {
+public class ClsModeloAdministrador implements Serializable {
     private String dni;
     private String nombre;
     private String apellido;
@@ -40,7 +41,6 @@ public class ClsModeloAdministrador {
         this.estado = estado;
         this.fotoPerfil = fotoPerfil;
     }
-    
 
     // Getters y setters para los atributos
     public String getDni() {
