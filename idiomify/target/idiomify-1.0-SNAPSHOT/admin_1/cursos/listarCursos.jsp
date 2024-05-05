@@ -13,6 +13,7 @@
 <%@page import="Modelo.ClsModeloCurso"%>
 <%@page import="ModeloDAO.ClsModeloDaoCurso"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ page import="org.apache.commons.text.StringEscapeUtils" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -60,6 +61,7 @@
         <a href="/idiomify/CursoServlet?accion=agregarCursos" class="btn btn-primary me-2">
                 <i class="bi bi-plus"></i> Nuevo
             </a>
+            <% String hiddenIdIdioma = StringEscapeUtils.escapeHtml4(idIdiomaStr); %>
            <a href="/idiomify/CursoServlet?accion=exportarPdf&idIdioma=<%= idIdiomaStr%>" class="btn btn-primary me-2">
                 PDF <i class="fa-solid fa-download"></i>
             </a>

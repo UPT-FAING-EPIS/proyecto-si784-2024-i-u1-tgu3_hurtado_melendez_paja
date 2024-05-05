@@ -3,6 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="Modelo.ClsModeloIdioma" %>
 <%@ page import="ModeloDAO.ClsModeloDaoIdioma" %>
+<%@ page import="org.apache.commons.text.StringEscapeUtils" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -94,11 +95,11 @@
                        List<ClsModeloIdioma> idiomas = dao.obtenerTodosIdiomas();
                        for (ClsModeloIdioma idioma : idiomas) { %>
                        <tr>
-                           <td><%= idioma.getIdIdioma() %></td>
-                           <td><%= idioma.getNombre() %></td>
-                           <td><%= idioma.getDescripcion() %></td>
+                           <td><%= StringEscapeUtils.escapeHtml4(String.valueOf(idioma.getIdIdioma()) %></td>
+                           <td><%= StringEscapeUtils.escapeHtml4(idioma.getNombre()) %></td>
+                           <td><%= StringEscapeUtils.escapeHtml4(idioma.getDescripcion()) %></td>
                            <td>
-                               <img src="<%= idioma.getUrlBanner() %>" alt="Banner" width="100">
+                               <img src="<%= StringEscapeUtils.escapeHtml4(idioma.getUrlBanner()) %>" alt="Banner" width="100">
                            </td>
                            <td>
                                <div class="acciones-icons">
