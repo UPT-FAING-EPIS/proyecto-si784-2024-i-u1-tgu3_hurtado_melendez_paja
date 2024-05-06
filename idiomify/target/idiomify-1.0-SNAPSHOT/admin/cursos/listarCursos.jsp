@@ -72,7 +72,7 @@
                 <i class="bi bi-plus"></i> Nuevo
 <% } %>
             </a>
-           <a href="/idiomify/CursoServlet?accion=exportarPdf&idIdioma=<%= idIdiomaStr%>" class="btn btn-primary me-2">
+           <a href="/idiomify/CursoServlet?accion=exportarPdf&idIdioma=<%= StringEscapeUtils.escapeHtml4(idIdiomaStr)%>" class="btn btn-primary me-2">
                 PDF <i class="fa-solid fa-download"></i>
             </a>
               <% String hiddenIdIdioma = StringEscapeUtils.escapeHtml4(idIdiomaStr); %>

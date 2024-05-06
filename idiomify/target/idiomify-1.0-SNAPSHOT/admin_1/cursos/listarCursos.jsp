@@ -62,10 +62,10 @@
                 <i class="bi bi-plus"></i> Nuevo
             </a>
             <% String hiddenIdIdioma = StringEscapeUtils.escapeHtml4(idIdiomaStr); %>
-           <a href="/idiomify/CursoServlet?accion=exportarPdf&idIdioma=<%= idIdiomaStr%>" class="btn btn-primary me-2">
+           <a href="/idiomify/CursoServlet?accion=exportarPdf&idIdioma=<%= hiddenIdIdioma%>" class="btn btn-primary me-2">
                 PDF <i class="fa-solid fa-download"></i>
             </a>
-            <a href="/idiomify/CursoServlet?accion=exportarCsv&idIdioma=<%= idIdiomaStr%>" class="btn btn-primary me-2">
+            <a href="/idiomify/CursoServlet?accion=exportarCsv&idIdioma=<%= hiddenIdIdiomaStr%>" class="btn btn-primary me-2">
                CSV<i class="fa-solid fa-download"></i>
             </a>
             <form method="post" action="/idiomify/CursoServlet?accion=insertarCursosCSV" enctype="multipart/form-data">
@@ -99,20 +99,20 @@
                     List<ClsModeloCurso> cursos = dao.listarCursosPorIdIdioma(idIdioma);
                     for (ClsModeloCurso curso : cursos) { %>
                     <tr>
-                        <td><%= curso.getIdCurso() %></td>
-                        <td><%= curso.getFKidIdioma() %></td>
-                        <td><%= curso.getNombre() %></td>
-                        <td><%= curso.getDescripcion() %></td>
+                        <td><%= StringEscapeUtils.escapeHtml4(curso.getIdCurso()) %></td>
+                        <td><%= StringEscapeUtils.escapeHtml4(curso.getFKidIdioma()) %></td>
+                        <td><%= StringEscapeUtils.escapeHtml4(curso.getNombre()) %></td>
+                        <td><%= StringEscapeUtils.escapeHtml4(curso.getDescripcion()) %></td>
                         <td>
-                            <img src="<%= curso.getUrlBanner() %>" alt="Banner" width="100" >
+                            <img src="<%= StringEscapeUtils.escapeHtml4(curso.getUrlBanner()) %>" alt="Banner" width="100" >
                         </td>
                         <td>
                             <div class="acciones-icons">
-                                <a href="/idiomify/CursoServlet?accion=editarCursos&idCurso=<%= curso.getIdCurso()%>" class="btn btn-warning">
+                                <a href="/idiomify/CursoServlet?accion=editarCursos&idCurso=<%= StringEscapeUtils.escapeHtml4(curso.getIdCurso())%>" class="btn btn-warning">
                                    <i class="fa-solid fa-pen-to-square" style="color: #ffffff;"></i>
                                 </a>
 
-                                <a href="/idiomify/LeccionServlet?accion=listarLecciones&idCurso=<%= curso.getIdCurso()%>&ruta=admin" class="btn btn-info">
+                                <a href="/idiomify/LeccionServlet?accion=listarLecciones&idCurso=<%= StringEscapeUtils.escapeHtml4(curso.getIdCurso())%>&ruta=admin" class="btn btn-info">
                                     <i class="bi bi-eye"></i>
                                 </a>
                             </div>
