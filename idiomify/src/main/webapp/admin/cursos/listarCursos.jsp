@@ -70,12 +70,12 @@
                 <i class="bi bi-plus"></i> Nuevo
 <% } %>
             </a>
-           <a href="/idiomify/CursoServlet?accion=exportarPdf&idIdioma=<%= idIdiomaStr%>" class="btn btn-primary me-2">
+            <a href="/idiomify/CursoServlet?accion=exportarPdf&idIdioma=<%= org.apache.commons.lang.StringEscapeUtils.escapeXml(idIdiomaStr) %>" class="btn btn-primary me-2">
                 PDF <i class="fa-solid fa-download"></i>
-            </a>
-            <a href="/idiomify/CursoServlet?accion=exportarCsv&idIdioma=<%= idIdiomaStr%>" class="btn btn-primary me-2">
-               CSV<i class="fa-solid fa-download"></i>
-            </a>
+            </a>            
+            <a href="/idiomify/CursoServlet?accion=exportarCsv&idIdioma=<%= org.apache.commons.lang.StringEscapeUtils.escapeXml(idIdiomaStr) %>" class="btn btn-primary me-2">
+                CSV <i class="fa-solid fa-download"></i>
+            </a>            
                
             <% if (adminAutenticadope != null && !adminAutenticadope.getRol().equalsIgnoreCase("Lectura")) { %>
 
