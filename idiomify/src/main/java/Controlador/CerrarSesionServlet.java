@@ -16,7 +16,8 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/CerrarSesionServlet")
 public class CerrarSesionServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         // Obtiene la sesión actual
         HttpSession session = request.getSession(false);
 
@@ -25,7 +26,10 @@ public class CerrarSesionServlet extends HttpServlet {
             session.invalidate();
         }
 
-        // Redirige a una página de confirmación de cierre de sesión o a la página de inicio
-        response.sendRedirect("index.jsp");
+        try {
+            response.sendRedirect("index.jsp");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

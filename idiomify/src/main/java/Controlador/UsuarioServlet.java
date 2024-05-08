@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package Controlador;
+package controlador;
 
 import Modelo.ClsModeloUsuario;
 import ModeloDAO.ClsModeloDaoUsuario;
@@ -26,12 +26,6 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-//PARA ENCRIPTAR
-<<<<<<< HEAD
-
-=======
-import controlador.LoginServlet;
->>>>>>> a89d61accd63dfd80474b6ec393458ef190a4d3c
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;

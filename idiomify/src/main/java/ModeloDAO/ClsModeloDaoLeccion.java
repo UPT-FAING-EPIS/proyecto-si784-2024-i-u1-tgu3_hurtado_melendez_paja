@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import Modelo.ClsModeloLeccion;
-import Configdb.ClsConexiondb;
+import configdb.ClsConexiondb;
 
 public class ClsModeloDaoLeccion {
     private final Connection conexion;

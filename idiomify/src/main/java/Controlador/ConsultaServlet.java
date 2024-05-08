@@ -70,8 +70,13 @@ public class ConsultaServlet extends HttpServlet {
             }
         }
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher(page);
-        dispatcher.forward(request, response);
+        try {
+          RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+          dispatcher.forward(request, response);
+      } catch (ServletException | IOException e) {
+          // Handle ServletException and IOException here
+          e.printStackTrace(); // Example: print the stack trace
+      }
     }
 
     /**
@@ -85,7 +90,7 @@ public class ConsultaServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        // Vacio
     }
 
     /**

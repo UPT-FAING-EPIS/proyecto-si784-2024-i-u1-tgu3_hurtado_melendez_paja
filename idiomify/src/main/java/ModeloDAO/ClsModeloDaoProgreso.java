@@ -4,9 +4,10 @@
  */
 package ModeloDAO;
 
-import Configdb.ClsConexiondb;
 import Modelo.ClsModeloConsultaProgreso;
 import Modelo.ClsModeloProgreso;
+import configdb.ClsConexiondb;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

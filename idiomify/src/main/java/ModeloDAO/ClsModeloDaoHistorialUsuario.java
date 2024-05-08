@@ -4,8 +4,9 @@
  */
 package ModeloDAO;
 
-import Configdb.ClsConexiondb;
 import Modelo.ClsModeloHistorialUsuario;
+import configdb.ClsConexiondb;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

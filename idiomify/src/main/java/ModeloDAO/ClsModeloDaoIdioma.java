@@ -6,7 +6,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import Modelo.ClsModeloIdioma;
-import Configdb.ClsConexiondb;
+import configdb.ClsConexiondb;
+
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import java.io.BufferedReader;

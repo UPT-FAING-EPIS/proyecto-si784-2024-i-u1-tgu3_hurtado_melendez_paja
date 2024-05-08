@@ -1,4 +1,4 @@
-package Controlador;
+package controlador;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -17,7 +17,7 @@ import ModeloDAO.ClsModeloDaoCurso;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfDocument;
+
 import com.itextpdf.text.pdf.PdfWriter;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
@@ -31,34 +31,16 @@ import javax.servlet.RequestDispatcher;
 
 
 //PARA EL PDF
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.text.pdf.PdfPCell;
+
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.Image;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
+
 import java.io.InputStreamReader;
 import java.net.URL;
 
 
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.Date;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.ByteArrayOutputStream;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import static org.apache.commons.io.IOUtils.writer;
 
 @WebServlet(name = "CursoServlet", urlPatterns = {"/CursoServlet"})
 public class CursoServlet extends HttpServlet {
@@ -269,12 +251,6 @@ case "exportarPdf":
                                   
                         String idIdiomaStr = request.getParameter("FKidIdioma");
                         page = "admin/cursos/listarCursos.jsp?idIdioma="+idIdiomaStr;
-<<<<<<< HEAD
-                                                       
-=======
-                                                         System.out.println("tienes fff esto es la url valo:"+idIdiomaStr+page);
->>>>>>> a89d61accd63dfd80474b6ec393458ef190a4d3c
-//                        AQUI QUIERO REDIRIGIR AQUI AL MISMO SERVLET PERO AL LISTARcURSOS PERO AL GET
                     } else {
                         page = "error.jsp";
                     }

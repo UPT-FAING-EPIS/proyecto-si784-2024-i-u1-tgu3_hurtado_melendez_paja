@@ -8,12 +8,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Modelo.ClsModeloLeccion;
 import ModeloDAO.ClsModeloDaoLeccion;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 
 @WebServlet(name = "LeccionServlet", urlPatterns = {"/LeccionServlet"})
 public class LeccionServlet extends HttpServlet {
 
+    private static final String LISTAR_LECCIONES_URL = "admin/lecciones/listarLecciones.jsp?idCurso=";
+    private static final String ERROR_PAGE = "error.jsp";
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -50,13 +52,13 @@ public class LeccionServlet extends HttpServlet {
 
                     if (exitoEliminacion) {
                         String idCurso = request.getParameter("idCurso");
-                        page = "admin/lecciones/listarLecciones.jsp?idCurso=" + idCurso;
+                        page = LISTAR_LECCIONES_URL + idCurso;
                     } else {
-                        page = "error.jsp";
+                        page = ERROR_PAGE;
                     }
                     break;
                 default:
-                    page = "error.jsp";
+                    page = ERROR_PAGE;
                     break;
             }
         }
@@ -86,9 +88,9 @@ public class LeccionServlet extends HttpServlet {
 
                     if (exito) {
                         String idCurso = request.getParameter("FKidCurso");
-                        page = "admin/lecciones/listarLecciones.jsp?idCurso=" + idCurso;
+                        page = LISTAR_LECCIONES_URL + idCurso;
                     } else {
-                        page = "error.jsp";
+                        page = ERROR_PAGE;
                     }
                     break;
                 case "actualizarLeccion":
@@ -104,14 +106,14 @@ public class LeccionServlet extends HttpServlet {
                     boolean exitoActualizacion = daoLeccionActualizar.actualizarLeccion(leccionActualizada);
 
                     if (exitoActualizacion) {
-                       page = "admin/lecciones/listarLecciones.jsp?idCurso=" + FKidCurso;
+                       page = LISTAR_LECCIONES_URL + FKidCurso;
                         System.out.println("rutaa:"+page);
                     } else {
-                        page = "error.jsp";
+                        page = ERROR_PAGE;
                     }
                     break;
                 default:
-                    page = "error.jsp";
+                    page = ERROR_PAGE;
                     break;
             }
         }

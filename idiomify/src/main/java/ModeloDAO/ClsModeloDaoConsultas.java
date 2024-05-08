@@ -6,8 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import Configdb.ClsConexiondb;
+
 import Modelo.ClsModeloUsuario;
+import configdb.ClsConexiondb;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
