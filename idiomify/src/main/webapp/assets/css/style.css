@@ -831,8 +831,8 @@ border-bottom: solid 1px var(--kappel);}
 \*-----------------------------------*/
 
 .footer {
-  background-repeat: no-repeat;
   background: linear-gradient(280deg, #174B8A 3.68%, #0C1219 71.34%), linear-gradient(280deg, #174B8A 3.68%, #0C1219 71.34%);
+  background-repeat: no-repeat;
   color: var(--gray-x-11);
   font-size: var(--fs-5);
 }
