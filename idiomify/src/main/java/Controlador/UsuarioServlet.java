@@ -27,11 +27,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 //PARA ENCRIPTAR
-<<<<<<< HEAD
 
-=======
-import controlador.LoginServlet;
->>>>>>> a89d61accd63dfd80474b6ec393458ef190a4d3c
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Image;

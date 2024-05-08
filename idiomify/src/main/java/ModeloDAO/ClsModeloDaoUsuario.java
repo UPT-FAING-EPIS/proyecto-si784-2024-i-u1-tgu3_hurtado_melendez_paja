@@ -9,7 +9,7 @@ import java.util.List;
 import Modelo.ClsModeloUsuario;
 import Configdb.ClsConexiondb;
 //PARA ENCRIPTAR
-import controlador.LoginServlet;
+import Controlador.LoginServlet;
 
 public class ClsModeloDaoUsuario {
     private final Connection conexion;

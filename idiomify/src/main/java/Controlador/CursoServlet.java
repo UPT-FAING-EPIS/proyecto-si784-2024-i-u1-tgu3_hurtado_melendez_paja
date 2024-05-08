@@ -269,11 +269,7 @@ case "exportarPdf":
                                   
                         String idIdiomaStr = request.getParameter("FKidIdioma");
                         page = "admin/cursos/listarCursos.jsp?idIdioma="+idIdiomaStr;
-<<<<<<< HEAD
-                                                       
-=======
                                                          System.out.println("tienes fff esto es la url valo:"+idIdiomaStr+page);
->>>>>>> a89d61accd63dfd80474b6ec393458ef190a4d3c
 //                        AQUI QUIERO REDIRIGIR AQUI AL MISMO SERVLET PERO AL LISTARcURSOS PERO AL GET
                     } else {
                         page = "error.jsp";
