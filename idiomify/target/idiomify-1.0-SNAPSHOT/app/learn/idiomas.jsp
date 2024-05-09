@@ -4,7 +4,7 @@
 <%@ page import="Modelo.ClsModeloIdioma" %>
 <%@ page import="ModeloDAO.ClsModeloDaoIdioma" %>
 <!DOCTYPE html>
-<html>
+<html lang="en" xml:lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Listado de Idiomas</title>

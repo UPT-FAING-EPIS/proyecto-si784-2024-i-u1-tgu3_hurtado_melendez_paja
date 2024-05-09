@@ -15,7 +15,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="org.apache.commons.text.StringEscapeUtils" %>
 <!DOCTYPE html>
-<html>
+
+<html lang="en" xml:lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Listado de Cursos</title>

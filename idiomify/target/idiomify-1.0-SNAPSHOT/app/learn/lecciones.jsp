@@ -9,7 +9,7 @@
 <%@page import="ModeloDAO.ClsModeloDaoLeccion"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="en" xml:lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Listado de Lecciones</title>
