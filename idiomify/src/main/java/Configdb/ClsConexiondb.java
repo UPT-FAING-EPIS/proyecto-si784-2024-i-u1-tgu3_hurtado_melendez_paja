@@ -1,18 +1,11 @@
-package configdb;
-
+package Configdb;
 import java.sql.*;
 import java.security.MessageDigest;
-
+import java.security.NoSuchAlgorithmException;
 public class ClsConexiondb {
-    Connection conexiondb = null; // Declaración de una variable de tipo "Connection" llamada "conexiondb"
-                                  // inicializada como nula.
+    Connection conexiondb = null;  // Declaración de una variable de tipo "Connection" llamada "conexiondb" inicializada como nula.
 
-    public class NoSuchAlgorithmException extends RuntimeException {
-        public NoSuchAlgorithmException(String message, Throwable cause) {
-            super(message, cause);
-        }
-    }
-
+   
     private String encryptPassword(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -20,13 +13,12 @@ public class ClsConexiondb {
             StringBuilder hexString = new StringBuilder();
             for (byte b : hash) {
                 String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1)
-                    hexString.append('0');
+                if (hex.length() == 1) hexString.append('0');
                 hexString.append(hex);
             }
             return hexString.toString();
-        } catch (java.security.NoSuchAlgorithmException e) {
-            throw new NoSuchAlgorithmException("Error al obtener instancia de SHA-256", e);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Error al obtener instancia de SHA-256", e);
         }
     }
 
@@ -37,12 +29,12 @@ public class ClsConexiondb {
                 throw new IllegalArgumentException("La variable de entorno DB_PASSWORD no está definida");
             }
             String encryptedPassword = encryptPassword(passwordEnv);
-            conexiondb = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbidiomify", "tu_usuario",
-                    encryptedPassword);
+            conexiondb = DriverManager.getConnection("jdbc:mysql://localhost:3306/dbidiomify", "tu_usuario", encryptedPassword);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+
 
     // Método que proporciona la conexión a la base de datos.
     public Connection obtenerConexion() {

@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controlador;
+package Controlador;
 
 import java.io.IOException;
-
+import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -70,13 +70,8 @@ public class ConsultaServlet extends HttpServlet {
             }
         }
 
-        try {
-          RequestDispatcher dispatcher = request.getRequestDispatcher(page);
-          dispatcher.forward(request, response);
-      } catch (ServletException | IOException e) {
-          // Handle ServletException and IOException here
-          e.printStackTrace(); // Example: print the stack trace
-      }
+        RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+        dispatcher.forward(request, response);
     }
 
     /**
@@ -90,7 +85,7 @@ public class ConsultaServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Vacio
+        
     }
 
     /**

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controlador;
+package Controlador;
 
 import java.io.IOException;
 
@@ -16,8 +16,7 @@ import javax.servlet.http.HttpSession;
 @WebServlet("/CerrarSesionServlet")
 public class CerrarSesionServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Obtiene la sesión actual
         HttpSession session = request.getSession(false);
 
@@ -26,10 +25,7 @@ public class CerrarSesionServlet extends HttpServlet {
             session.invalidate();
         }
 
-        try {
-            response.sendRedirect("index.jsp");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Redirige a una página de confirmación de cierre de sesión o a la página de inicio
+        response.sendRedirect("index.jsp");
     }
 }

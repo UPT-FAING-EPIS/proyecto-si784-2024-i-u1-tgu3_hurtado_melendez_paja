@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import Modelo.ClsModeloAdministrador;
-import configdb.ClsConexiondb;
-import controlador.LoginServlet;
+import Configdb.ClsConexiondb;
+import Controlador.LoginServlet;
 
 public class ClsModeloDaoAdministrador {
     private final Connection conexion;

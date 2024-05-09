@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import Modelo.ClsModeloUsuario;
-import configdb.ClsConexiondb;
+import Configdb.ClsConexiondb;
 //PARA ENCRIPTAR
-import controlador.LoginServlet;
+import Controlador.LoginServlet;
 
 public class ClsModeloDaoUsuario {
     private final Connection conexion;
