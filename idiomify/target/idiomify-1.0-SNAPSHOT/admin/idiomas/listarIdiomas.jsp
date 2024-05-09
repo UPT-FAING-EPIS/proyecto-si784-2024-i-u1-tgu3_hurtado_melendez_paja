@@ -3,7 +3,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="Modelo.ClsModeloIdioma" %>
 <%@ page import="ModeloDAO.ClsModeloDaoIdioma" %>
-<%@ page import="org.apache.commons.text.StringEscapeUtils" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,33 +90,34 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% ClsModeloDaoIdioma dao = new ClsModeloDaoIdioma();
-                       List<ClsModeloIdioma> idiomas = dao.obtenerTodosIdiomas();
-                       for (ClsModeloIdioma idioma : idiomas) { %>
-                       <tr>
-                           <td><%= StringEscapeUtils.escapeHtml4(String.valueOf(idioma.getIdIdioma()) %></td>
-                           <td><%= StringEscapeUtils.escapeHtml4(idioma.getNombre()) %></td>
-                           <td><%= StringEscapeUtils.escapeHtml4(idioma.getDescripcion()) %></td>
-                           <td>
-                               <img src="<%= StringEscapeUtils.escapeHtml4(idioma.getUrlBanner()) %>" alt="Banner" width="100">
-                           </td>
-                           <td>
-                               <div class="acciones-icons">
-                             <% if (adminAutenticadope != null && !adminAutenticadope.getRol().equalsIgnoreCase("Lectura")) { %>
-
-    
-   
-                                   <a href="/idiomify/IdiomaServlet?accion=editarIdiomas&idIdioma=<%= idioma.getIdIdioma()%>" class="btn btn-primary">
-                                      <i class="fa-regular fa-pen-to-square"></i>
-                                   </a>
-<% } %>
-                                   <a href="/idiomify/CursoServlet?accion=listarCursos&idIdioma=<%= idioma.getIdIdioma()%>" class="btn btn-success">
-                                       <i class="bi bi-eye"></i>
-                                   </a>
-                               </div>
-                           </td>
-                       </tr>
-                    <% } %>
+                    <% 
+                        ClsModeloDaoIdioma dao = new ClsModeloDaoIdioma();
+                        List<ClsModeloIdioma> idiomas = dao.obtenerTodosIdiomas();
+                        for (ClsModeloIdioma idioma : idiomas) { 
+                        %>
+                        <tr>
+                            <td><%= sanitize(idioma.getIdIdioma()) %></td>
+                            <td><%= sanitize(idioma.getNombre()) %></td>
+                            <td><%= sanitize(idioma.getDescripcion()) %></td>
+                            <td>
+                                <img src="<%= sanitize(idioma.getUrlBanner()) %>" alt="Banner" width="100">
+                            </td>
+                            <td>
+                                <div class="acciones-icons">
+                                    <% if (adminAutenticadope != null && !adminAutenticadope.getRol().equalsIgnoreCase("Lectura")) { %>
+                                        <a href="/idiomify/IdiomaServlet?accion=editarIdiomas&idIdioma=<%= sanitize(idioma.getIdIdioma()) %>" class="btn btn-primary">
+                                            <i class="fa-regular fa-pen-to-square"></i>
+                                        </a>
+                                    <% } %>
+                                    <a href="/idiomify/CursoServlet?accion=listarCursos&idIdioma=<%= sanitize(idioma.getIdIdioma()) %>" class="btn btn-success">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <% 
+                        } 
+                    %>
                 </tbody>
             </table>
         </div>
@@ -150,3 +150,36 @@
     </script>
 </body>
 </html>
+
+
+<%! 
+    public static String sanitize(String input) {
+        if (input == null) {
+            return null;
+        }
+        StringBuilder sanitized = new StringBuilder();
+        for (char c : input.toCharArray()) {
+            switch (c) {
+                case '<':
+                    sanitized.append("&lt;");
+                    break;
+                case '>':
+                    sanitized.append("&gt;");
+                    break;
+                case '"':
+                    sanitized.append("&quot;");
+                    break;
+                case '\'':
+                    sanitized.append("&#39;");
+                    break;
+                case '&':
+                    sanitized.append("&amp;");
+                    break;
+                default:
+                    sanitized.append(c);
+                    break;
+            }
+        }
+        return sanitized.toString();
+    }
+%>

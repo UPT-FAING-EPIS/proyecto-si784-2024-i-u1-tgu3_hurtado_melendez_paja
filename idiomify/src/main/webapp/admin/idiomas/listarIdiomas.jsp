@@ -3,7 +3,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="Modelo.ClsModeloIdioma" %>
 <%@ page import="ModeloDAO.ClsModeloDaoIdioma" %>
-<%@ page import="org.apache.commons.text.StringEscapeUtils" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -91,19 +90,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% ClsModeloDaoIdioma dao = new ClsModeloDaoIdioma();
-                       List<ClsModeloIdioma> idiomas = dao.obtenerTodosIdiomas();
-                       for (ClsModeloIdioma idioma : idiomas) { %>
-                       <tr>
-                           <td><%= StringEscapeUtils.escapeHtml4(String.valueOf(idioma.getIdIdioma()) %></td>
-                           <td><%= StringEscapeUtils.escapeHtml4(idioma.getNombre()) %></td>
-                           <td><%= StringEscapeUtils.escapeHtml4(idioma.getDescripcion()) %></td>
-                           <td>
-                               <img src="<%= StringEscapeUtils.escapeHtml4(idioma.getUrlBanner()) %>" alt="Banner" width="100">
-                           </td>
-                           <td>
-                               <div class="acciones-icons">
-                             <% if (adminAutenticadope != null && !adminAutenticadope.getRol().equalsIgnoreCase("Lectura")) { %>
+                    <%
+                        ClsModeloDaoIdioma dao = new ClsModeloDaoIdioma();
+                        List<ClsModeloIdioma> idiomas = dao.obtenerTodosIdiomas();
+                        for (ClsModeloIdioma idioma : idiomas) {
+                            int idIdioma = idioma.getIdIdioma();
+                            String nombre = sanitize(idioma.getNombre());
+                            String descripcion = sanitize(idioma.getDescripcion());
+                            String urlBanner = sanitize(idioma.getUrlBanner());
+                        %>
+                        <tr>
+                            <td><%= idIdioma %></td>
+                            <td><%= nombre %></td>
+                            <td><%= descripcion %></td>
+                            <td>
+                                <img src="<%= urlBanner %>" alt="Banner" width="100">
+                            </td>
+                            <td>
+                                <div class="acciones-icons">
+                                    <% if (adminAutenticadope != null && !adminAutenticadope.getRol().equalsIgnoreCase("Lectura")) { %>
 
     
    
@@ -150,3 +155,36 @@
     </script>
 </body>
 </html>
+
+
+<%! 
+    public static String sanitize(String input) {
+        if (input == null) {
+            return null;
+        }
+        StringBuilder sanitized = new StringBuilder();
+        for (char c : input.toCharArray()) {
+            switch (c) {
+                case '<':
+                    sanitized.append("&lt;");
+                    break;
+                case '>':
+                    sanitized.append("&gt;");
+                    break;
+                case '"':
+                    sanitized.append("&quot;");
+                    break;
+                case '\'':
+                    sanitized.append("&#39;");
+                    break;
+                case '&':
+                    sanitized.append("&amp;");
+                    break;
+                default:
+                    sanitized.append(c);
+                    break;
+            }
+        }
+        return sanitized.toString();
+    }
+%>
