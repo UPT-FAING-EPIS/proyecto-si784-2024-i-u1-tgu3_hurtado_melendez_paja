@@ -16,7 +16,7 @@ public class PreguntaServlet extends HttpServlet {
     public static final String ID_PREGUNTA_PARAM = "idPregunta";
     public static final String LISTAR_PREGUNTAS = "admin/preguntas/listarPreguntas.jsp?idLeccion=";
     public static final String ERROR ="error.jsp";
-    public static final String FK_idLeccion ="FKidLeccion";
+    public static final String FK_IDLECCION ="FKidLeccion";
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("accion");
@@ -78,7 +78,7 @@ public class PreguntaServlet extends HttpServlet {
                     String idPreguntaEliminarstr = request.getParameter(ID_PREGUNTA_PARAM);
                     int idPreguntaEliminar = Integer.parseInt(idPreguntaEliminarstr);
                     nuevaPregunta.setIdPregunta(idPreguntaEliminar);
-                    nuevaPregunta.setFKidLeccion(request.getParameter(FK_idLeccion));
+                    nuevaPregunta.setFKidLeccion(request.getParameter(FK_IDLECCION));
                     nuevaPregunta.setEnunciado(request.getParameter("enunciado"));
                     nuevaPregunta.setActividad(request.getParameter("actividad"));
                     nuevaPregunta.setRespuesta(request.getParameter("respuesta"));
@@ -89,7 +89,7 @@ public class PreguntaServlet extends HttpServlet {
                     boolean exito = daoPregunta.agregarPregunta(nuevaPregunta);
 
                     if (exito) {
-                        String idLeccion = request.getParameter(FK_idLeccion);
+                        String idLeccion = request.getParameter(FK_IDLECCION);
                         page = LISTAR_PREGUNTAS+ idLeccion;
                     } else {
                         page = ERROR;
@@ -100,7 +100,7 @@ public class PreguntaServlet extends HttpServlet {
                      int idPregunta = Integer.parseInt(idPreguntaactualizarrstr);
                    
             
-                    String FKidLeccion = request.getParameter(FK_idLeccion);
+                    String FKidLeccion = request.getParameter(FK_IDLECCION);
                     String enunciado = request.getParameter("enunciado");
                     String actividad = request.getParameter("actividad");
                     String respuesta = request.getParameter("respuesta");

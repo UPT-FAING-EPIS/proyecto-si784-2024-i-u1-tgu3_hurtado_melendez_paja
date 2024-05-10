@@ -23,9 +23,8 @@ import javax.servlet.http.HttpServletResponse;
 public class ProgresoServlet extends HttpServlet {
 
     public static final String ERROR ="error.jsp";
-    
-    public static final String FK_idUsuario = "FKidUsuario";
-    public static final String FK_idLeccion = "FKidLeccion";
+    public static final String FK_ID_USUARIO = "FKidUsuario";
+    public static final String FK_ID_LECCION = "FKidLeccion";
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -80,8 +79,8 @@ protected void doPost(HttpServletRequest request, HttpServletResponse response) 
     String page = "index.jsp";
 
     if ("agregarProgreso".equals(action)) {
-        int idUsuario = Integer.parseInt(request.getParameter(FK_idUsuario));
-        String idLeccion = request.getParameter(FK_idLeccion);
+        int idUsuario = Integer.parseInt(request.getParameter(FK_ID_USUARIO));
+        String idLeccion = request.getParameter(FK_ID_LECCION);
         int puntuacion = Integer.parseInt(request.getParameter("puntuacion"));
         ClsModeloDaoProgreso daoProgreso = new ClsModeloDaoProgreso();
 

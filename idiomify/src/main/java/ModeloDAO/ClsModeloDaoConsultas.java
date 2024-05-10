@@ -16,6 +16,9 @@ import java.util.List;
 
 public class ClsModeloDaoConsultas {
 
+    public static final String CANTIDAD ="cantidad";
+    public static final String ERROR_SQL ="No se pudo obtener la conexión a la base de datos.";
+
     public Map<String, Integer> obtenerUsuariosPorPais() {
         Map<String, Integer> usuariosPorPais = new HashMap<>();
 
@@ -37,7 +40,7 @@ public class ClsModeloDaoConsultas {
                         // Iterar sobre los resultados y agregar al mapa.
                         while (resultados.next()) {
                             String pais = resultados.getString("pais");
-                            int cantidadUsuarios = resultados.getInt("cantidad");
+                            int cantidadUsuarios = resultados.getInt(CANTIDAD);
                             usuariosPorPais.put(pais, cantidadUsuarios);
                         }
                     }
@@ -49,7 +52,7 @@ public class ClsModeloDaoConsultas {
                 conexionDB.cerrarConexion();
             }
         } else {
-            System.out.println("No se pudo obtener la conexión a la base de datos.");
+            System.out.println(ERROR_SQL);
         }
 
         return usuariosPorPais;
@@ -68,7 +71,7 @@ public class ClsModeloDaoConsultas {
                 try (ResultSet resultados = statement.executeQuery()) {
                     while (resultados.next()) {
                         String genero = resultados.getString("genero");
-                        int cantidadUsuarios = resultados.getInt("cantidad");
+                        int cantidadUsuarios = resultados.getInt(CANTIDAD);
                         usuariosPorGenero.put(genero, cantidadUsuarios);
                     }
                 }
@@ -83,7 +86,7 @@ public class ClsModeloDaoConsultas {
             conexionDB.cerrarConexion();
         }
     } else {
-        System.out.println("No se pudo obtener la conexión a la base de datos.");
+        System.out.println(ERROR_SQL);
     }
 
     return usuariosPorGenero;
@@ -104,7 +107,7 @@ public class ClsModeloDaoConsultas {
                 try (PreparedStatement statement = conexion.prepareStatement(consultaSQL)) {
                     try (ResultSet resultados = statement.executeQuery()) {
                         if (resultados.next()) {
-                            cantidadTotalUsuarios = resultados.getInt("cantidad");
+                            cantidadTotalUsuarios = resultados.getInt(CANTIDAD);
                         }
                     }
                 }
@@ -114,7 +117,7 @@ public class ClsModeloDaoConsultas {
                 conexionDB.cerrarConexion();
             }
         } else {
-            System.out.println("No se pudo obtener la conexión a la base de datos.");
+            System.out.println(ERROR_SQL);
         }
 
         return cantidadTotalUsuarios;
@@ -154,7 +157,7 @@ public class ClsModeloDaoConsultas {
                             // Iterar sobre los resultados y agregar al mapa.
                             if (resultados.next()) {
                                 String rango = rangoInicial + " - " + rangoFinal;
-                                int cantidadUsuarios = resultados.getInt("cantidad");
+                                int cantidadUsuarios = resultados.getInt(CANTIDAD);
                                 usuariosPorRangoEdades.put(rango, cantidadUsuarios);
                             }
                         }
@@ -171,7 +174,7 @@ public class ClsModeloDaoConsultas {
                 conexionDB.cerrarConexion();
             }
         } else {
-            System.out.println("No se pudo obtener la conexión a la base de datos.");
+            System.out.println(ERROR_SQL);
         }
 
         return usuariosPorRangoEdades;
@@ -195,7 +198,7 @@ public Map<String, Integer> obtenerUsuariosPorMes() {
                     while (resultados.next()) {
                         int mes = resultados.getInt("mes");
                         String nombreMes = obtenerNombreMes(mes); // Método auxiliar para obtener el nombre del mes.
-                        int cantidadUsuarios = resultados.getInt("cantidad");
+                        int cantidadUsuarios = resultados.getInt(CANTIDAD);
                         usuariosPorMes.put(nombreMes, cantidadUsuarios);
                     }
                 }
@@ -206,7 +209,7 @@ public Map<String, Integer> obtenerUsuariosPorMes() {
             conexionDB.cerrarConexion();
         }
     } else {
-        System.out.println("No se pudo obtener la conexión a la base de datos.");
+        System.out.println(ERROR_SQL);
     }
 
     // Rellenar con 0 para los meses sin registros.
@@ -298,7 +301,7 @@ public Map<String, Integer> obtenerUsuariosPorMes() {
                 conexionDB.cerrarConexion();
             }
         } else {
-            System.out.println("No se pudo obtener la conexión a la base de datos.");
+            System.out.println(ERROR_SQL);
         }
 
         return ultimosUsuarios;

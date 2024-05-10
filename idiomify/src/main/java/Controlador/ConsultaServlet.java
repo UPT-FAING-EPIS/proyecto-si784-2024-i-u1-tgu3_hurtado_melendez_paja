@@ -85,7 +85,11 @@ public class ConsultaServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+         /*
+     * This method is intentionally left empty because the servlet
+     * is designed to handle only GET requests for generating CAPTCHA images.
+     * POST requests are not supported in this implementation.
+     */
     }
 
     /**

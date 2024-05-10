@@ -14,7 +14,6 @@ import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
-import java.net.HttpURLConnection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.mindrot.jbcrypt.BCrypt;
@@ -25,6 +24,7 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 @WebServlet("/captcha-image.jsp")
 public class LoginServlet extends HttpServlet {
+    private static final Random random = new Random();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Establece el tamaño de la imagen CAPTCHA
@@ -60,7 +60,7 @@ public class LoginServlet extends HttpServlet {
 
     private String generateRandomCaptchaText(int length) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        Random random = new Random();
+        
         StringBuilder captchaText = new StringBuilder();
 
         for (int i = 0; i < length; i++) {
